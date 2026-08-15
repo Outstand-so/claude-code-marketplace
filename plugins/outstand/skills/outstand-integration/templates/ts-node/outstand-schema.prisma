@@ -1,0 +1,61 @@
+// Recommended shape for tracking Outstand resources alongside your own data.
+// Merge these models into your existing schema.prisma rather than using this file directly —
+// adapt relations (`user`/`org`) to your actual auth/tenancy model.
+//
+// Indexes on every outstand_*_id column are deliberate: webhook processing looks up rows by
+// these IDs on every event, and this table can grow large under load.
+
+model SocialNetwork {
+  id                String   @id @default(cuid())
+  outstandNetworkId String   @unique // id returned by POST /v1/social-networks (BYOK only)
+  platform          String // 'x', 'linkedin', 'instagram', ... — the `network` value
+  createdAt         DateTime @default(now())
+}
+
+model SocialAccount {
+  id                String   @id @default(cuid())
+  userId            String
+  outstandAccountId String   @unique // id used to target this account in `accounts: [...]`
+  platform          String
+  username          String?
+  needsReauth       Boolean  @default(false) // set true on account.token_expired
+  connectedAt       DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  postAccounts PostAccount[]
+
+  @@index([outstandAccountId])
+}
+
+model Post {
+  id             String   @id @default(cuid())
+  userId         String
+  outstandPostId String   @unique // id returned by POST /v1/posts
+  content        String?
+  scheduledAt    DateTime?
+  createdAt      DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  postAccounts PostAccount[]
+
+  @@index([outstandPostId])
+}
+
+// One row per (post, account) — this is what makes partial success representable.
+// Never collapse this to a single status column on Post; a post is only as "published"
+// as its individual PostAccount rows.
+model PostAccount {
+  id                String    @id @default(cuid())
+  postId            String
+  outstandAccountId String
+  platformPostId    String? // native ID on the platform, e.g. the tweet ID
+  platformPostUrl   String?
+  status            String    @default("pending") // 'pending' | 'published' | 'failed' | 'deleted'
+  error             String?
+  publishedAt       DateTime?
+
+  post Post @relation(fields: [postId], references: [id])
+
+  @@index([postId])
+  @@index([outstandAccountId])
+}

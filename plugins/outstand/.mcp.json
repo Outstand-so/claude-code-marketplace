@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "outstand": {
+      "type": "http",
+      "url": "https://mcp.outstand.so/mcp"
+    }
+  }
+}

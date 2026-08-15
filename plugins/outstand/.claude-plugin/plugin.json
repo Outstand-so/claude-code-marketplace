@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "outstand",
+  "displayName": "Outstand",
+  "version": "0.1.0",
+  "description": "Integrate the Outstand unified social media API (11 platforms, one integration) into your codebase — guided setup, code scaffolding, debugging, and integration review.",
+  "author": {
+    "name": "Outstand",
+    "url": "https://www.outstand.so"
+  },
+  "homepage": "https://www.outstand.so/docs/getting-started",
+  "repository": "https://github.com/outstand/claude-code-marketplace",
+  "license": "MIT",
+  "keywords": ["outstand", "social-media", "api", "publishing", "webhooks", "mcp"],
+  "mcpServers": "./.mcp.json"
+}
