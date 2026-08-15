@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "outstand",
+  "description": "Official Claude Code marketplace for Outstand — a unified social media API covering 11 platforms behind one integration.",
+  "owner": {
+    "name": "Outstand",
+    "email": "support@outstand.so",
+    "url": "https://www.outstand.so"
+  },
+  "plugins": [
+    {
+      "name": "outstand",
+      "description": "Integrate the Outstand unified social media API into your codebase — guided setup, scaffolding, debugging, and review.",
+      "author": {
+        "name": "Outstand",
+        "url": "https://www.outstand.so"
+      },
+      "category": "productivity",
+      "keywords": ["outstand", "social-media", "api", "publishing", "webhooks", "mcp"],
+      "homepage": "https://www.outstand.so/docs/getting-started",
+      "license": "MIT",
+      "source": "./plugins/outstand"
+    }
+  ]
+}
