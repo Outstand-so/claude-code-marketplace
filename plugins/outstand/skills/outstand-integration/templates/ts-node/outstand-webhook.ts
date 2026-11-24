@@ -107,7 +107,10 @@ export async function handleOutstandWebhook(req: Request, res: Response) {
       break;
     }
     default:
-      // import.completed / import.failed — wire up if you use post import.
+      // Other events you may receive if subscribed: import.completed / import.failed (post
+      // import), comment.received (comments/replies), conversation.started, message.received,
+      // message.sent (DMs). See the `webhooks` doc page for payloads. Acknowledge with 200 even
+      // when unhandled so Outstand doesn't retry them.
       break;
   }
 

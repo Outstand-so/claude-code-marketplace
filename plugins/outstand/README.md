@@ -1,10 +1,13 @@
 # Outstand plugin
 
-Guided integration, scaffolding, debugging, and review for the
+Posting from Claude, plus guided integration, scaffolding, debugging, and review for the
 [Outstand](https://www.outstand.so) unified social media API.
 
 ## Commands
 
+- **`/outstand:post [content]`** — publish or schedule a post to your connected accounts
+  without writing code. Confirms accounts and per-network text, then reports the real
+  per-account result.
 - **`/outstand:start`** — interactive triage: figures out whether you're starting fresh, adding
   a capability, debugging, or reviewing, and routes accordingly. Best entry point if you're not
   sure which of the others to use.

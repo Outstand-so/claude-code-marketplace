@@ -31,11 +31,17 @@ code. Never ask what's already answerable from the repo or from a connected MCP 
 4. **Sync strategy: webhooks or polling** — recommend webhooks per the architecture, but ask if
    the deployment target can receive inbound webhooks at all (e.g. local-only dev, no public
    URL yet). If not, scaffold polling with a clear note to switch to webhooks before production.
-5. **Frontend connect UI needed?** — only if the repo is a React app; offer `@outstand-so/ui`
+5. **Beyond publishing?** Only ask if the request hints at it: analytics (`get-post-analytics`,
+   `get-account-metrics`), comments and replies (`get-post-repliescomments`,
+   `publish-a-comment`, `create-a-first-comment`), or DMs and comment-to-DM
+   (`conversations/getting-started`, `conversations/comment-to-dm`). These add webhook events
+   (`comment.received`, `conversation.*`, `message.*`) and extra scopes, so scope them
+   explicitly rather than scaffolding them by default.
+6. **Frontend connect UI needed?** — only if the repo is a React app; offer `@outstand-so/ui`
    over hand-rolled OAuth-redirect UI.
 
 Two short rounds, not five. If the answers imply more scope than fits comfortably in one
-generation pass (e.g. "all 11 platforms, full UI, webhooks, migrations, tests"), say so and
+generation pass (e.g. "all 12 platforms, full UI, webhooks, migrations, tests"), say so and
 propose splitting into phases rather than silently truncating the output.
 
 ## After the interview: confirm before writing

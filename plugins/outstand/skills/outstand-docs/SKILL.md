@@ -14,7 +14,7 @@ lists every page. Use that pair instead of guessing or dumping the entire doc se
    ```
    curl -s https://www.outstand.so/docs/llms.txt
    ```
-   ~6KB. Lists every doc page with a one-line description and its slug. This is the router —
+   ~22KB and growing. Lists every doc page with a one-line description and its slug. This is the router —
    use it to find the 1–3 pages that actually answer the question. Fetch this once per session
    and reuse it; re-fetch only if you suspect it's gone stale mid-session (rare).
 
@@ -31,10 +31,14 @@ lists every page. Use that pair instead of guessing or dumping the entire doc se
    bulk/offline consumption, not per-question lookups — it will blow your context budget for a
    single-field question.
 
-4. **`WebFetch` is for existence checks only** — "is there a page about X" — never for the
-   answer itself. WebFetch summarizes through a smaller model, which is exactly how a field gets
-   silently renamed or an enum value dropped. Field names, status codes, and schemas must come
-   from text you fetched with `curl`/`WebFetch`-raw and read yourself in the `.mdx`.
+4. **Read the raw `.mdx` yourself; don't rely on a summary.** Use `curl` (or any tool that
+   returns the response body verbatim). A summarizing fetch tool such as `WebFetch` is fine for
+   "is there a page about X", but not for the answer itself: summaries are exactly how a field
+   gets silently renamed or an enum value dropped. If `curl` is unavailable and only a
+   summarizing tool is, ask it to quote the relevant schema block verbatim, and tell the user
+   the detail should be double-checked against the page.
+   If the Outstand MCP server is connected, its `search_docs` tool is a quick way to find the
+   right page; still read the page itself before stating a schema detail.
 
 5. **Don't restate a fact you haven't fetched this session.** If asked something and no fetched
    page covers it, fetch the relevant page(s) first — don't answer from training data and don't
@@ -49,26 +53,36 @@ Other Outstand skills mention doc slugs (e.g. "see `webhooks`" or "see `configur
 starting guess for step 2. Always let the index (step 1) confirm the slug is still current before
 relying on it — docs get renamed.
 
-## Known-good slugs (spot-checked, may drift — reconfirm via the index)
+## Known-good slugs (spot-checked 2026-11-24, may drift, reconfirm via the index)
 
-`getting-started`, `authentication`, `architecture`, `webhooks`, `post-lifecycle`,
-`create-a-post`, `update-a-post`, `list-posts`, `get-post-details`, `delete-cancel-a-post`,
-`connect-a-new-social-network`, `list-connected-social-networks`,
-`get-social-network-authentication-url`, `list-connected-social-accounts`,
-`connect-a-bluesky-account`, `get-upload-url`, `confirm-upload`, `list-media-files`,
-`configurations/x`, `configurations/linkedin`, `configurations/instagram`,
-`configurations/facebook`, `configurations/Threads` (note the capital T — inconsistent with
-every other platform slug, confirmed by direct fetch), `configurations/tiktok`,
-`configurations/youtube`, `configurations/pinterest`, `configurations/bluesky`,
-`configurations/google-business`, `mcp`, `mcp/setup`, `mcp/tools`, `sdk/ui`,
-`backend-integration`, `comparisons`.
+Core: `getting-started`, `authentication`, `architecture`, `organization-permissions`,
+`idempotency`, `webhooks`, `post-lifecycle`, `video-processing`, `backend-integration`,
+`sdk/ui`, `mcp`, `mcp/setup`, `mcp/tools`, `claude-code`.
 
-**Known doc-site gap:** the index (`llms.txt`) links a Vimeo config page at
-`configurations/vimeo`, but as of this writing that page 404s (both lowercase and capitalized,
-with or without `.mdx`) — it appears to not exist despite Vimeo being a supported platform. If a
-user needs Vimeo setup details and this is still broken, say so plainly rather than inventing
-content, and point them to `getting-started`/`authentication` for the generic OAuth flow plus
-`support@outstand.so` for Vimeo-specific app setup.
+Posts: `create-a-post`, `update-a-post`, `list-posts`, `get-post-details`,
+`delete-cancel-a-post`, `delete-a-post-from-social-networks`,
+`repost-a-post-to-social-networks`, `get-post-analytics`, `create-a-first-comment`,
+`get-post-repliescomments`, `publish-a-comment`, `delete-a-comment`.
+
+Accounts and networks: `connect-a-new-social-network`, `list-connected-social-networks`,
+`get-social-network-authentication-url`, `finalize-pending-connection`,
+`list-connected-social-accounts`, `connect-a-bluesky-account`, `check-account-health`,
+`get-account-metrics`, `get-instagram-and-facebook-audience-demographics`.
+
+Media: `get-upload-url`, `confirm-upload`, `list-media-files`, `get-media-file`,
+`delete-media-file`.
+
+Usage: `current-usage`, `set-usage-limits`.
+
+Conversations (DMs, comment-to-DM): `conversations/getting-started`,
+`conversations/message-lifecycle`, `conversations/send-a-message`,
+`conversations/comment-to-dm`, `conversations/list-conversations`.
+
+Platforms: `configurations/x`, `configurations/linkedin`, `configurations/instagram`,
+`configurations/facebook`, `configurations/Threads` (capital T; lowercase 404s),
+`configurations/tiktok`, `configurations/tiktok-business`, `configurations/youtube`,
+`configurations/pinterest`, `configurations/bluesky`, `configurations/google-business`,
+`configurations/vimeo`, `configurations/reddit`.
 
 ## When answering integration questions
 

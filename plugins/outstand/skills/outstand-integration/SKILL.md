@@ -1,6 +1,6 @@
 ---
 name: outstand-integration
-description: Use when the user wants to add Outstand API integration to their codebase — connecting social accounts, publishing posts, scheduling, media upload, or webhooks — whether starting fresh or adding a capability to an existing integration. Runs a short scoped interview, confirms a plan, then generates code. Not for reviewing existing code (see outstand-review) or debugging errors (see outstand-troubleshooting).
+description: Use when the user wants to add Outstand API integration to their codebase — connecting social accounts, publishing posts, scheduling, media upload, or webhooks — whether starting fresh or adding a capability to an existing integration. Runs a short scoped interview, confirms a plan, then generates code. Not for reviewing existing code (see outstand-review), debugging errors (see outstand-troubleshooting), or posting content on the user's behalf without writing code (see outstand-publish).
 ---
 
 # Outstand Integration
@@ -55,6 +55,8 @@ Regardless of stack, generated code must:
 - Use the 3-step media flow (`request upload URL` → `PUT` → `confirm`) end-to-end, not a
   shortcut that skips confirm.
 - Pass `Idempotency-Key` on post creation paths that might be retried by the caller's own logic.
+- Use per-network `content` overrides in one post instead of separate posts per network when
+  the text differs by platform.
 - Persist Outstand IDs (`socialNetworkId`, `socialAccountId`, `postId`, `platformPostId`) with
   indexes.
 
