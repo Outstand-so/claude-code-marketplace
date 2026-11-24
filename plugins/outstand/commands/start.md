@@ -23,7 +23,7 @@ options concrete (e.g. mention detected accounts/platforms) rather than generic.
 
 ## Ask (round 1, one question)
 
-Use `AskUserQuestion` with four options:
+Use `AskUserQuestion` with these options:
 
 - **Starting fresh** — no existing integration found (or user confirms) → hand off to the
   `outstand-integration` skill / suggest `/outstand:integrate`.
@@ -33,6 +33,8 @@ Use `AskUserQuestion` with four options:
 - **Something's broken** → hand off to the `outstand-troubleshooting` skill / suggest
   `/outstand:debug`.
 - **Review what we've built** → hand off to `outstand-review` / suggest `/outstand:review`.
+- **Just post something** (no code, publish or schedule content now) → hand off to the
+  `outstand-publish` skill / suggest `/outstand:post`.
 
 At most one more short round of clarifying questions after this, specific to the path chosen —
 don't stack additional generic questions on top of this one.

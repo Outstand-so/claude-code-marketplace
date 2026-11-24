@@ -1,25 +1,36 @@
 # Outstand Claude Code Marketplace
 
 The official Claude Code plugin marketplace for [Outstand](https://www.outstand.so) — a unified
-social media API covering 11 platforms (X, LinkedIn, Instagram, Facebook, Threads, TikTok,
-YouTube, Bluesky, Pinterest, Google Business Profile, Vimeo) behind one integration.
+social media API covering 12 platforms (X, LinkedIn, Instagram, Facebook, Threads, TikTok,
+YouTube, Bluesky, Pinterest, Google Business Profile, Vimeo, Reddit) behind one integration.
 
 ## Install
 
 ```
-/plugin marketplace add outstand/claude-code-marketplace
+/plugin marketplace add Outstand-so/claude-code-marketplace
 /plugin install outstand@outstand
 ```
+
+**Other agents** (Cursor, Codex, OpenClaw, Hermes and 40+ more) can install the skills with:
+
+```
+npx skills add Outstand-so/claude-code-marketplace
+```
+
+`outstand-publish` is self-contained, so it works on its own in any agent that reads
+`SKILL.md` files. Pair it with the remote MCP server at `https://mcp.outstand.so/mcp`, or set
+`OUTSTAND_API_KEY` for plain HTTP.
 
 (Replace the marketplace source with a local path — `/plugin marketplace add ./` — while
 developing against a clone of this repo.)
 
 ## What's in the `outstand` plugin
 
-An interactive assistant for integrating the Outstand API into your codebase.
+Two jobs in one plugin: post to social media straight from Claude (`/outstand:post`), and integrate the Outstand API into your codebase.
 
 | Command | Use it for |
 |---|---|
+| `/outstand:post` | Publish or schedule a post to your connected accounts, no code needed |
 | `/outstand:start` | Not sure where to begin — routes you to the right flow |
 | `/outstand:integrate` | Scaffold a new integration or add a capability to an existing one |
 | `/outstand:debug` | Diagnose an error, an unexpected response, or a post that didn't publish where expected |
@@ -37,8 +48,8 @@ can see your real connected accounts and post/webhook state instead of guessing.
 ```
 .claude-plugin/marketplace.json   # marketplace manifest
 plugins/outstand/                 # the outstand plugin
-  commands/                       # /outstand:start, :integrate, :debug, :review
-  skills/                         # outstand-docs, outstand-integration, outstand-platforms,
+  commands/                       # /outstand:post, :start, :integrate, :debug, :review
+  skills/                         # outstand-publish, outstand-docs, outstand-integration, outstand-platforms,
                                    # outstand-troubleshooting, outstand-review
   agents/                         # outstand-reviewer (read-only audit agent)
   .mcp.json                       # bundled Outstand MCP server config

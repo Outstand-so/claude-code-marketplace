@@ -1,0 +1,16 @@
+name: Check Outstand doc links
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"  # weekly, catches upstream doc renames between plugin releases
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/check-doc-links.sh

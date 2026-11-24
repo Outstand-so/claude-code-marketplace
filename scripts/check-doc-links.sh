@@ -14,12 +14,14 @@ COUNT=0
 # Portable form (no mapfile/readarray — macOS ships bash 3.2).
 # Internal component names that happen to look like slugs (skills/agents/templates within this
 # plugin, not Outstand doc pages) — excluded explicitly rather than guessed at.
-INTERNAL_NAMES='^(outstand-docs|outstand-integration|outstand-platforms|outstand-review|outstand-reviewer|outstand-troubleshooting)$'
+INTERNAL_NAMES='^(outstand-docs|outstand-integration|outstand-platforms|outstand-publish|outstand-review|outstand-reviewer|outstand-troubleshooting)$'
 
-# Known-broken upstream doc link — Outstand's own index links this page but it 404s. Tracked
-# here so it doesn't silently start passing (remove this line once it's fixed) or silently keep
-# failing CI forever (it's excluded from the check, not asserted-fixed).
-KNOWN_BROKEN='^configurations/vimeo$'
+# API `network` values that look like slugs (hyphenated) but are not doc pages.
+NETWORK_VALUES='^(tiktok-business)$'
+
+# Known-broken upstream doc links, excluded from the check. Empty pattern = none.
+# (configurations/vimeo used to 404; it resolves as of 2026-11-24, so it is checked again.)
+KNOWN_BROKEN='^$'
 
 SLUGS=$(
   grep -rhoE '`[a-zA-Z0-9/_-]+`' plugins/outstand \
@@ -27,11 +29,12 @@ SLUGS=$(
     | grep -vE '^(TODO|GET|POST|PUT|PATCH|DELETE)$' \
     | grep -vE "$INTERNAL_NAMES" \
     | grep -vE "$KNOWN_BROKEN" \
+    | grep -vE "$NETWORK_VALUES" \
     | grep -vE '^/' \
     | grep -vE '^(skills|templates|references|commands|agents)/' \
     | grep -vE '/$' \
     | grep -vE '^X-[A-Za-z-]+$' \
-    | grep -vE '^(Idempotency-Key|Retry-After)$' \
+    | grep -vE '^(Idempotency-Key|Retry-After|Content-Type)$' \
     | sort -u
 )
 
